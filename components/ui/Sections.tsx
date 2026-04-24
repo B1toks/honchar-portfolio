@@ -35,11 +35,12 @@ export function Nav() {
         <span>Vienna {time}</span>
         <span className="text-ink-700">|</span>
         <a
-          href="/cv/Oleksandr_Honchar_CV.pdf"
-          download
+          href="https://b1toks.github.io/cv/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent hover:bg-accent-glow text-white transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.45)]"
         >
-          <span>↓</span> Download CV
+          <span>↗</span> View CV
         </a>
       </div>
     </nav>
@@ -69,7 +70,10 @@ export function HeroOverlay() {
         </span>
         <span className="text-indigo-400">.</span>
       </h1>
-      <div className="mt-4 h-6 text-sm md:text-base text-ink-300 font-mono overflow-hidden">
+      <p className="mt-5 max-w-xl text-base md:text-lg text-ink-200 leading-snug">
+        A Front-End Developer who thinks up ideas first — then builds them.
+      </p>
+      <div className="mt-3 h-5 text-[12px] md:text-[13px] text-ink-400 font-mono overflow-hidden">
         <span
           key={roleIdx}
           className="inline-block animate-[slideUp_0.5s_cubic-bezier(0.16,1,0.3,1)]"
@@ -139,7 +143,7 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
         02 / About
       </p>
       <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-3xl mb-10">
-        Building clean, scalable frontends with React, TypeScript, and Next.js.
+        Where I'm at — and where I'm heading.
       </h2>
 
       <div className="grid grid-cols-6 auto-rows-[minmax(140px,auto)] gap-3 md:gap-4">
@@ -147,12 +151,13 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
         <Bento className="col-span-6 md:col-span-4 p-8" glow="indigo">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80 mb-3">Bio</p>
           <p className="text-base md:text-lg text-ink-300 leading-relaxed">
-            I'm a <span className="text-ink-100">Software Engineering student</span> currently on
-            <span className="text-ink-100"> Erasmus+</span> in Austria. My core stack is
-            <span className="text-ink-100"> React, TypeScript, Next.js</span>, and
-            <span className="text-ink-100"> Tailwind</span>. I focus on writing clean, scalable code
-            and leverage <span className="text-ink-100">AI-assisted workflows</span> to deliver
-            high-quality features efficiently.
+            A <span className="text-ink-100">Front-End Developer</span> currently on
+            <span className="text-ink-100"> Erasmus+</span> in Austria. Open for
+            <span className="text-ink-100"> Junior or Werkstudent roles</span> today — core stack:
+            <span className="text-ink-100"> React, TypeScript, Next.js, Tailwind</span>. My strength
+            is taking a concept, refining it with the team, and carrying the technical implementation
+            from prototype to the people who actually use it. Long-term I'm heading toward
+            <span className="text-ink-100"> creative technology</span> — but builder first.
           </p>
         </Bento>
 

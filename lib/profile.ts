@@ -3,9 +3,9 @@ export const profile = {
   tagline: 'Junior Front-End Developer',
   roles: [
     'Junior Front-End Developer',
-    'Software Engineering student',
-    'Erasmus+ exchange in Austria',
-    'AI-assisted workflows · Clean code',
+    'Software Engineering student · Erasmus+ in Austria',
+    'React · TypeScript · Next.js · Tailwind',
+    'Creative-leaning developer · Builder first',
   ],
   location: {
     city: 'Sankt Pölten',
