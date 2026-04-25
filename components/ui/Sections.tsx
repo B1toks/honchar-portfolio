@@ -326,33 +326,61 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
 
         {/* STATS */}
         <Bento className="col-span-6 md:col-span-3 p-6" glow="indigo">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80">
-            By the numbers
-          </p>
-          <div className="grid grid-cols-3 gap-3 mt-4">
-            <div>
-              <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">
-                5+
-              </p>
-              <p className="text-[10px] font-mono text-ink-500 mt-1 uppercase tracking-wider">
-                Projects
-              </p>
+          <div className="flex flex-col h-full">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80">
+              By the numbers
+            </p>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-4">
+              <div>
+                <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent leading-none">
+                  6+
+                </p>
+                <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
+                  Shipped projects
+                </p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-cyan-300 bg-clip-text text-transparent leading-none">
+                  3
+                </p>
+                <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
+                  Pro terms
+                </p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent leading-none">
+                  3
+                </p>
+                <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
+                  Languages
+                </p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-pink-300 bg-clip-text text-transparent leading-none">
+                  2
+                </p>
+                <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
+                  Countries
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-cyan-300 bg-clip-text text-transparent">
-                3
+
+            {/* currently exploring footer — fills the card */}
+            <div className="mt-auto pt-5 border-t border-white/[0.05]">
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-ink-500 mb-2">
+                Currently exploring
               </p>
-              <p className="text-[10px] font-mono text-ink-500 mt-1 uppercase tracking-wider">
-                Terms
-              </p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent">
-                2
-              </p>
-              <p className="text-[10px] font-mono text-ink-500 mt-1 uppercase tracking-wider">
-                Countries
-              </p>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/[0.1] text-indigo-200 border border-indigo-500/20">
+                  Three.js / R3F
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/[0.1] text-amber-200 border border-amber-500/20">
+                  German A1 → A2
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-pink-500/[0.1] text-pink-200 border border-pink-500/20">
+                  Awwwards-craft
+                </span>
+              </div>
             </div>
           </div>
         </Bento>

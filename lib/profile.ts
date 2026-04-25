@@ -32,10 +32,14 @@ export const profile = {
   ],
   education: [
     {
+      degree: 'Erasmus+ Exchange Semester',
+      school: 'FH St. Pölten, Austria',
+      period: 'Feb 2026 — Present',
+    },
+    {
       degree: 'B.Sc. Computer Engineering',
       school: 'Cherkasy State Business College, Ukraine',
       period: '2025 — Present',
-      note: 'Currently on Erasmus+ at FH St. Pölten',
     },
     {
       degree: 'Software Engineering Degree',
