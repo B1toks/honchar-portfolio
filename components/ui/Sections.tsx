@@ -316,9 +316,6 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
                 <h4 className="text-sm font-semibold text-ink-100">{e.degree}</h4>
                 <p className="text-[12px] text-ink-300">{e.school}</p>
                 <p className="text-[11px] font-mono text-ink-400 mt-0.5">{e.period}</p>
-                {e.note && (
-                  <p className="text-[11px] text-purple-300/80 mt-1">{e.note}</p>
-                )}
               </div>
             ))}
           </div>
