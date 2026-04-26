@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { ProjectModal } from '@/components/ui/ProjectModal';
 import { Nav, HeroOverlay, Hint, ContentSections } from '@/components/ui/Sections';
+import { Terminal } from '@/components/ui/Terminal';
 import { projectById, type PieceId } from '@/lib/projects';
 
 // R3F must be client-only — skip SSR to avoid hydration/WebGL issues
@@ -24,11 +25,34 @@ const Scene = dynamic(
 
 export default function Home() {
   const [selectedId, setSelectedId] = useState<PieceId | null>(null);
+  const [terminalOpen, setTerminalOpen] = useState(false);
   const selected = selectedId ? projectById(selectedId) : null;
+
+  // Keyboard shortcut: ` (backtick) or ~ to toggle terminal
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // ignore when typing into input/textarea/contentEditable
+      const t = e.target as HTMLElement | null;
+      if (
+        t &&
+        (t.tagName === 'INPUT' ||
+          t.tagName === 'TEXTAREA' ||
+          t.isContentEditable)
+      ) {
+        return;
+      }
+      if (e.key === '`' || e.key === '~') {
+        e.preventDefault();
+        setTerminalOpen((v) => !v);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <main className="relative min-h-screen">
-      <Nav />
+      <Nav onOpenTerminal={() => setTerminalOpen(true)} />
 
       {/* HERO — 3D scene fills the viewport */}
       <section className="relative h-[100svh] w-full overflow-hidden">
@@ -54,12 +78,14 @@ export default function Home() {
         <Hint />
       </section>
 
-      <ContentSections onSelect={(id) => setSelectedId(id as PieceId)} />
+      <ContentSections />
 
       <ProjectModal
         project={selected ?? null}
         onClose={() => setSelectedId(null)}
       />
+
+      <Terminal open={terminalOpen} onClose={() => setTerminalOpen(false)} />
     </main>
   );
 }

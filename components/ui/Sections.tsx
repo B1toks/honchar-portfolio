@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { profile } from '@/lib/profile';
-import { projects } from '@/lib/projects';
+import { Timeline } from './Timeline';
 
 /* =========================================================
    Top Nav
    ========================================================= */
-export function Nav() {
+export function Nav({ onOpenTerminal }: { onOpenTerminal?: () => void }) {
   const [time, setTime] = useState('');
   useEffect(() => {
     const fmt = () =>
@@ -34,6 +34,17 @@ export function Nav() {
       <div className="hidden sm:flex items-center gap-3 text-ink-400">
         <span>Vienna {time}</span>
         <span className="text-ink-700">|</span>
+        {onOpenTerminal && (
+          <button
+            onClick={onOpenTerminal}
+            aria-label="Open terminal"
+            title="Open terminal (press ` or ~)"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/10 text-ink-300 hover:text-emerald-300 hover:border-emerald-400/40 hover:bg-emerald-500/[0.04] transition-all"
+          >
+            <span className="opacity-80">&gt;_</span>
+            <span>terminal</span>
+          </button>
+        )}
         <a
           href="https://b1toks.github.io/cv/"
           target="_blank"
@@ -147,7 +158,7 @@ function Bento({
 /* =========================================================
    About / Skills / Languages / Contact — bento content
    ========================================================= */
-export function ContentSections({ onSelect }: { onSelect: (id: string) => void }) {
+export function ContentSections() {
   return (
     <>
     <section className="relative px-4 md:px-8 pt-16 md:pt-24 pb-10 md:pb-12 max-w-6xl mx-auto">
@@ -542,37 +553,24 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
     </section>
 
     {/* =============================================================
-         04 / PROJECTS & CONTACT
+         03 / PATH — interactive timeline of career moments
+         ============================================================= */}
+    <section className="relative px-4 md:px-8 pt-10 pb-10 md:pb-12 max-w-6xl mx-auto">
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-pink-400/80 mb-4">
+        03 / Path
+      </p>
+      <h2 className="text-2xl md:text-4xl font-bold tracking-tight leading-tight max-w-3xl mb-10 text-ink-200">
+        The work, in order.
+      </h2>
+
+      <Timeline />
+    </section>
+
+    {/* =============================================================
+         04 / GET IN TOUCH
          ============================================================= */}
     <section className="relative px-4 md:px-8 pt-10 pb-16 md:pb-24 max-w-6xl mx-auto">
       <div className="grid grid-cols-6 gap-3 md:gap-4">
-        {/* PROJECTS QUICK LIST — clickable, routes to 3D modal */}
-        <Bento className="col-span-6 p-8" glow="pink">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-pink-400/80 mb-5">
-            03 / Projects index
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {projects.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => onSelect(p.id)}
-                className="text-left p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/20 transition-all group/card"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-ink-400">
-                    {p.pieceLabel}
-                  </span>
-                  <span className="text-ink-500 group-hover/card:text-ink-100 group-hover/card:translate-x-0.5 transition-all">
-                    →
-                  </span>
-                </div>
-                <h4 className="mt-1 text-lg font-semibold text-ink-100">{p.title}</h4>
-                <p className="text-[12px] text-ink-400 mt-1 line-clamp-2">{p.summary}</p>
-              </button>
-            ))}
-          </div>
-        </Bento>
-
         {/* CONTACT CTA */}
         <Bento className="col-span-6 p-8 relative overflow-hidden" glow="indigo">
           <div
