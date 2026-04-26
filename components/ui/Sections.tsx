@@ -110,10 +110,12 @@ function Bento({
   children,
   className = '',
   glow = 'indigo',
+  variant = 'default',
 }: {
   children: React.ReactNode;
   className?: string;
   glow?: 'indigo' | 'purple' | 'cyan' | 'pink' | 'emerald' | 'amber';
+  variant?: 'default' | 'archive';
 }) {
   const glowMap: Record<string, string> = {
     indigo:  'hover:border-indigo-400/30 hover:shadow-[0_0_60px_-15px_rgba(99,102,241,0.45)]',
@@ -123,9 +125,18 @@ function Bento({
     emerald: 'hover:border-emerald-400/30 hover:shadow-[0_0_60px_-15px_rgba(16,185,129,0.4)]',
     amber:   'hover:border-amber-400/30 hover:shadow-[0_0_60px_-15px_rgba(245,158,11,0.4)]',
   };
+  // archive variant = lighter background + dashed border, signals "context/history" not "active feature"
+  const baseBg =
+    variant === 'archive'
+      ? 'bg-gradient-to-br from-ink-700/30 via-ink-800/20 to-ink-900/40'
+      : 'bg-gradient-to-br from-ink-700/80 via-ink-800/60 to-ink-900';
+  const baseBorder =
+    variant === 'archive'
+      ? 'border border-dashed border-white/[0.1]'
+      : 'border border-white/[0.06]';
   return (
     <div
-      className={`bento group relative overflow-hidden rounded-[24px] border border-white/[0.06] bg-gradient-to-br from-ink-700/80 via-ink-800/60 to-ink-900 backdrop-blur-sm transition-all duration-500 ${glowMap[glow]} ${className}`}
+      className={`bento group relative overflow-hidden rounded-[24px] ${baseBorder} ${baseBg} backdrop-blur-sm transition-all duration-500 ${glowMap[glow]} ${className}`}
     >
       <div className="noise absolute inset-0" />
       <div className="relative h-full w-full">{children}</div>
@@ -138,9 +149,10 @@ function Bento({
    ========================================================= */
 export function ContentSections({ onSelect }: { onSelect: (id: string) => void }) {
   return (
-    <section className="relative px-4 md:px-8 py-16 md:py-24 max-w-6xl mx-auto">
+    <>
+    <section className="relative px-4 md:px-8 pt-16 md:pt-24 pb-10 md:pb-12 max-w-6xl mx-auto">
       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-indigo-400/80 mb-4">
-        02 / About
+        01 / About
       </p>
       <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-3xl mb-10">
         Where I'm at — and where I'm heading.
@@ -149,38 +161,85 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
       <div className="grid grid-cols-6 auto-rows-[minmax(140px,auto)] gap-3 md:gap-4">
         {/* ABOUT */}
         <Bento className="col-span-6 md:col-span-4 p-8" glow="indigo">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80 mb-3">Bio</p>
-          <p className="text-base md:text-lg text-ink-300 leading-relaxed">
-            A <span className="text-ink-100">Front-End Developer</span> currently on
-            <span className="text-ink-100"> Erasmus+</span> in Austria. Open for
-            <span className="text-ink-100"> Junior or Werkstudent roles</span> today — core stack:
-            <span className="text-ink-100"> React, TypeScript, Next.js, Tailwind</span>. My strength
-            is taking a concept, refining it with the team, and carrying the technical implementation
-            from prototype to the people who actually use it. Long-term I'm heading toward
-            <span className="text-ink-100"> creative technology</span> — but builder first.
-          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80 mb-4">Bio</p>
+          <div className="space-y-3 text-base md:text-[17px] text-ink-300 leading-relaxed">
+            <p>
+              A <span className="text-ink-100">Front-End Developer</span> currently on
+              <span className="text-ink-100"> Erasmus+</span> in Austria. Core stack:
+              <span className="text-ink-100"> React, TypeScript, Next.js, Tailwind</span>.
+              My strength is taking a concept, refining it with the team, and carrying
+              the technical implementation from prototype to the people who actually use it.
+            </p>
+            <p>
+              Before code, I worked in <span className="text-ink-100">visual design</span> —
+              Photoshop, Illustrator, freelance commissions. That background is why I care
+              about how interfaces <em className="text-ink-100 not-italic font-medium">feel</em>,
+              not just how they function.
+            </p>
+            <p>
+              I've played competitive chess. So when I became technical lead on
+              <span className="text-ink-100"> Subutai</span> — a kinetic chess variant
+              exhibited at <span className="text-ink-100">Lucid Dreams 2026</span> — I
+              understood the game from the inside, not just the spec.
+            </p>
+            <p>
+              Long-term I'm heading toward
+              <span className="text-ink-100"> creative technology</span>. But
+              <span className="text-ink-100"> builder first</span>.
+            </p>
+          </div>
         </Bento>
 
         {/* LANGUAGES */}
         <Bento className="col-span-6 md:col-span-2 p-6" glow="cyan">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400/80 mb-4">
-            Languages
-          </p>
-          <div className="space-y-3">
-            {profile.languages.map((l) => (
-              <div key={l.name}>
-                <div className="flex items-center justify-between text-[12px]">
-                  <span className="font-medium text-ink-100">{l.name}</span>
-                  <span className="text-ink-400 font-mono text-[10px]">{l.level}</span>
+          <div className="flex flex-col h-full">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400/80 mb-4">
+              Languages
+            </p>
+            <div className="space-y-3">
+              {profile.languages.map((l) => (
+                <div key={l.name}>
+                  <div className="flex items-center justify-between text-[12px]">
+                    <span className="font-medium text-ink-100">{l.name}</span>
+                    <span className="text-ink-400 font-mono text-[10px]">{l.level}</span>
+                  </div>
+                  <div className="mt-1 h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-all duration-700"
+                      style={{ width: `${l.score}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="mt-1 h-1 rounded-full bg-white/[0.06] overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-all duration-700"
-                    style={{ width: `${l.score}%` }}
-                  />
+              ))}
+            </div>
+
+            {/* Up next — pushed to bottom to balance with the taller About bento */}
+            <div className="mt-auto pt-5 border-t border-white/[0.05] space-y-3">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400/80 mb-2">
+                  Up next
+                </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/[0.04] border border-white/10 text-ink-300">
+                    DE A1
+                  </span>
+                  <span className="text-cyan-400/70 text-[10px]">→</span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/[0.12] border border-cyan-400/30 text-cyan-200 font-medium">
+                    A2
+                  </span>
+                  <span className="text-[10px] text-ink-500">by Jul 2026</span>
                 </div>
               </div>
-            ))}
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400/80 mb-1.5">
+                  Working comfort
+                </p>
+                <p className="text-[11px] text-ink-400 leading-relaxed">
+                  EN for any tech context — meetings, code reviews, docs.
+                  Building DE for long-term life in Austria.
+                </p>
+              </div>
+            </div>
           </div>
         </Bento>
 
@@ -381,7 +440,112 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
             </div>
           </div>
         </Bento>
+      </div>
+    </section>
 
+    {/* =============================================================
+         03 / BACKGROUND — its own section, archive-style cards
+         ============================================================= */}
+    <section className="relative px-4 md:px-8 pt-10 pb-10 md:pb-12 max-w-6xl mx-auto">
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink-400 mb-4">
+        02 / Background
+      </p>
+      <h2 className="text-2xl md:text-4xl font-bold tracking-tight leading-tight max-w-3xl mb-10 text-ink-200">
+        What shaped how I think about design and product.
+      </h2>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        {/* Visual Design */}
+        <Bento className="p-5 relative overflow-hidden" glow="pink" variant="archive">
+          <span
+            className="absolute -top-1 -right-1 text-[80px] leading-none opacity-[0.06] select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            🎨
+          </span>
+          <div className="relative">
+            <h3 className="text-lg font-semibold text-ink-100 leading-tight tracking-tight">
+              Visual Design
+            </h3>
+            <p className="text-[10.5px] font-mono text-pink-300/80 mt-1 tracking-wider">
+              Photoshop · Illustrator
+            </p>
+            <p className="mt-3.5 text-[12.5px] text-ink-400 leading-relaxed">
+              Freelance commissions — designed and sold custom digital assets.
+            </p>
+          </div>
+        </Bento>
+
+        {/* Content & Audience */}
+        <Bento className="p-5 relative overflow-hidden" glow="amber" variant="archive">
+          <span
+            className="absolute -top-1 -right-1 text-[80px] leading-none opacity-[0.06] select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            ▶
+          </span>
+          <div className="relative">
+            <h3 className="text-lg font-semibold text-ink-100 leading-tight tracking-tight">
+              Content & Audience
+            </h3>
+            <p className="text-[10.5px] font-mono text-amber-300/80 mt-1 tracking-wider">
+              Premiere Pro · YouTube
+            </p>
+            <p className="mt-3.5 text-[12.5px] text-ink-400 leading-relaxed">
+              100K+ views — understands how content reaches real audiences, not just how it&apos;s built.
+            </p>
+          </div>
+        </Bento>
+
+        {/* Chess */}
+        <Bento className="p-5 relative overflow-hidden" glow="purple" variant="archive">
+          <span
+            className="absolute -top-1 -right-1 text-[80px] leading-none opacity-[0.06] select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            ♟
+          </span>
+          <div className="relative">
+            <h3 className="text-lg font-semibold text-ink-100 leading-tight tracking-tight">
+              Chess
+            </h3>
+            <p className="text-[10.5px] font-mono text-purple-300/80 mt-1 tracking-wider">
+              2× College Tournament Winner
+            </p>
+            <p className="mt-3.5 text-[12.5px] text-ink-400 leading-relaxed">
+              Led Subutai&apos;s technical implementation as a player — understood the game from the inside, not just the spec.
+            </p>
+          </div>
+        </Bento>
+
+        {/* Figma */}
+        <Bento className="p-5 relative overflow-hidden" glow="cyan" variant="archive">
+          <span
+            className="absolute -top-1 -right-1 text-[80px] leading-none opacity-[0.06] select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            ◈
+          </span>
+          <div className="relative">
+            <h3 className="text-lg font-semibold text-ink-100 leading-tight tracking-tight">
+              Figma
+            </h3>
+            <p className="text-[10.5px] font-mono text-cyan-300/80 mt-1 tracking-wider">
+              UI Prototyping · Design Handoff
+            </p>
+            <p className="mt-3.5 text-[12.5px] text-ink-400 leading-relaxed">
+              Built several site mockups — comfortable translating design files into code without friction.
+            </p>
+          </div>
+        </Bento>
+      </div>
+    </section>
+
+    {/* =============================================================
+         04 / PROJECTS & CONTACT
+         ============================================================= */}
+    <section className="relative px-4 md:px-8 pt-10 pb-16 md:pb-24 max-w-6xl mx-auto">
+      <div className="grid grid-cols-6 gap-3 md:gap-4">
         {/* PROJECTS QUICK LIST — clickable, routes to 3D modal */}
         <Bento className="col-span-6 p-8" glow="pink">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-pink-400/80 mb-5">
@@ -460,5 +624,6 @@ export function ContentSections({ onSelect }: { onSelect: (id: string) => void }
         <span>Crafted with Next.js · React Three Fiber · Tailwind</span>
       </footer>
     </section>
+    </>
   );
 }

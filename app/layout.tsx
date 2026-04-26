@@ -17,7 +17,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Oleksandr Honchar — Junior Front-End Developer',
   description:
-    'React, TypeScript, Next.js. Computer Engineering Bachelor on Erasmus+ in Austria. Open for Werkstudent & Junior FE roles in Vienna / St. Pölten / Remote.',
+    'React, TypeScript, Next.js. Software Engineering student on Erasmus+ in Austria. Open for Werkstudent & Junior FE roles in Vienna / St. Pölten / Remote.',
   authors: [{ name: 'Oleksandr Honchar' }],
   openGraph: {
     title: 'Oleksandr Honchar — Junior Front-End Developer',

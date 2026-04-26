@@ -51,19 +51,19 @@ export const projects: Project[] = [
   {
     id: 'queen',
     pieceLabel: 'Queen',
-    title: 'The role I\'m searching for',
-    subtitle: 'Seeking · Open for hire',
-    role: 'You tell me',
+    title: "The role I'm searching for",
+    subtitle: 'Open for hire · DACH region',
+    role: 'Junior FE / Werkstudent',
     summary:
-      'Still searching for the role that unites React, 3D, AI-workflows, product thinking, and team ownership.',
+      "The most powerful piece hasn't moved yet — and that's the role I'm still looking for.",
     body:
-      "The most powerful piece on the board is the one I haven't played yet. Hiring a Junior FE / Werkstudent who can architect solo, ship under pressure, and obsess over DX? Let's talk — Vienna, St. Pölten, remote are all on the table.",
+      "I'm energised by the full loop — dreaming something up, building it, then watching real people respond to it (Subutai on stage at Lucid Dreams was the most recent rush of that). I want a team that trusts a junior with the full concept-to-ship cycle, real users at the other end, and room to grow toward creative technology and WebGL over the next 1–2 years. Builder first today, creative technologist later.",
     highlights: [
-      'Available immediately — Werkstudent / Part-time / Remote',
-      'Based in Sankt Pölten, Austria · open across the DACH region',
-      'Erasmus+ through July — long-term stay possible',
+      'Energised by the full loop: ideation → ship → real-user reaction',
+      'Long-term direction: creative technology · WebGL · design engineering',
+      'Available now · Vienna / St. Pölten / Remote',
     ],
-    tech: ['Curiosity', 'Ownership', 'Speed'],
+    tech: ['Ownership', 'Curiosity', 'Audience', 'Craft'],
     links: [
       { label: 'Email me', href: 'mailto:alexhonchar4@gmail.com', icon: 'mail' },
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/honchar-alex/', icon: 'linkedin' },

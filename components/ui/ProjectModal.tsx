@@ -104,7 +104,7 @@ export function ProjectModal({
                 {project.period && <><span className="text-ink-600">|</span><span>{project.period}</span></>}
               </div>
 
-              <p className="mt-5 text-ink-300 leading-relaxed">
+              <p className="mt-5 text-ink-300 leading-relaxed whitespace-pre-line">
                 {project.body}
               </p>
 
