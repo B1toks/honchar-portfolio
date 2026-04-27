@@ -107,8 +107,8 @@ export function HeroOverlay() {
    ========================================================= */
 export function Hint() {
   return (
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-10 flex flex-col items-center gap-1.5 text-[11px] font-mono text-ink-400">
-      <span className="opacity-80">← drag to rotate · scroll to zoom · click a piece →</span>
+    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-10 flex flex-col items-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-ink-400 px-4 text-center">
+      <span className="opacity-80">drag to rotate · click a piece · scroll for more</span>
       <span className="w-6 h-6 rounded-full border border-white/15 flex items-center justify-center animate-bounce">↓</span>
     </div>
   );

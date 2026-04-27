@@ -72,7 +72,7 @@ export function Scene({ onSelect, selectedId }: SceneProps) {
       </Suspense>
 
       <OrbitControls
-        enableZoom
+        enableZoom={false}
         enablePan={false}
         minDistance={6}
         maxDistance={16}
