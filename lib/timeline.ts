@@ -16,7 +16,8 @@ export interface TimelineEvent {
   role: string;
   description: string;
   stack?: string[];
-  link?: { label: string; href: string };
+  /** one or more clickable pills shown at the bottom of the card */
+  links?: Array<{ label: string; href: string }>;
   /** path under /public — e.g. '/screenshots/might.png'. If missing, a placeholder card is shown. */
   screenshot?: string;
   /** caption shown under the screenshot (optional) */
@@ -69,10 +70,9 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       'First paid commercial engagement — built a rental service platform for inflatable attractions on WordPress with customised Elementor components. Optimised performance and cross-device responsiveness against tight client requirements.',
     stack: ['WordPress', 'Elementor', 'Contact Form 7'],
-    link: {
-      label: 'Live',
-      href: 'https://showplus-inflatables.com/',
-    },
+    links: [
+      { label: 'Live', href: 'https://showplus-inflatables.com/' },
+    ],
     screenshot: '/screenshots/showplus.png',
     screenshotCaption: 'ShowPlus — rental landing for inflatable attractions.',
     color: 'amber',
@@ -87,10 +87,9 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       'Engineered a full LMS from scratch — role-based access (Admin / Teacher / Student), dynamic auto-save grade journal, and a dark-themed adaptive calendar with animated transitions.',
     stack: ['Next.js', 'TypeScript', 'Tailwind', 'ShadCN UI'],
-    link: {
-      label: 'Live demo',
-      href: 'https://project-g-b1toks-projects.vercel.app/',
-    },
+    links: [
+      { label: 'Live demo', href: 'https://project-g-b1toks-projects.vercel.app/' },
+    ],
     screenshot: '/screenshots/might.png',
     screenshotCaption: 'mIGHT — dashboard, courses, and adaptive calendar.',
     color: 'purple',
@@ -122,10 +121,10 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       'Built during my Erasmus+ exchange at FH St. Pölten — a Chess 960 variant with dynamically rotating 2×2 board segments and custom castling rules. Owned the technical implementation end-to-end. Selected exhibitor at Lucid Dreams 2026 (Projekt 027).',
     stack: ['React', 'TypeScript', 'Vite', 'Tailwind', 'ShadCN'],
-    link: {
-      label: 'Live + Lucid Dreams',
-      href: 'https://b1toks.github.io/subutai/',
-    },
+    links: [
+      { label: 'Live demo', href: 'https://b1toks.github.io/subutai/' },
+      { label: '✦ Lucid Dreams · Projekt 027', href: 'https://www.lucid-dreams.at/2026-projekte/projekt-027' },
+    ],
     screenshot: '/screenshots/subutai.png',
     screenshotCaption: 'Subutai — kinetic chess board with rotating 2×2 segments.',
     color: 'indigo',

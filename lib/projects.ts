@@ -66,7 +66,7 @@ export const projects: Project[] = [
     tech: ['Ownership', 'Curiosity', 'Audience', 'Craft'],
     links: [
       { label: 'Email me', href: 'mailto:alexhonchar4@gmail.com', icon: 'mail' },
-      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/honchar-alex/', icon: 'linkedin' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/honchar-oleksandr/', icon: 'linkedin' },
     ],
     color: 'pink',
     isPlaceholder: true,

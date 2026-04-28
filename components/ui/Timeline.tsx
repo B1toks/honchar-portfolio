@@ -249,21 +249,26 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
             />
           )}
 
-          {/* external link — pill button in event accent color */}
-          {event.link && (
-            <a
-              href={event.link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[12px] font-mono font-medium transition-all duration-300 ${c.link}`}
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-current opacity-60 animate-ping" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-current" />
-              </span>
-              <span>{event.link.label}</span>
-              <span className="text-[11px] opacity-80 transition-transform group-hover/tl:translate-x-0.5">↗</span>
-            </a>
+          {/* external links — one or more pill buttons in event accent color */}
+          {event.links && event.links.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {event.links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[12px] font-mono font-medium transition-all duration-300 ${c.link}`}
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-current opacity-60 animate-ping" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-current" />
+                  </span>
+                  <span>{l.label}</span>
+                  <span className="text-[11px] opacity-80 transition-transform group-hover/tl:translate-x-0.5">↗</span>
+                </a>
+              ))}
+            </div>
           )}
         </div>
       </div>

@@ -21,9 +21,9 @@ export const profile = {
   ],
   contact: {
     email: 'alexhonchar4@gmail.com',
-    phone: '+380964062217',
+    phone: '+43067763107794',
     github: 'https://github.com/B1toks',
-    linkedin: 'https://www.linkedin.com/in/honchar-alex/',
+    linkedin: 'https://www.linkedin.com/in/honchar-oleksandr/',
   },
   languages: [
     { name: 'Ukrainian', level: 'Native · C2', score: 100 },
