@@ -21,7 +21,7 @@ export const profile = {
   ],
   contact: {
     email: 'alexhonchar4@gmail.com',
-    phone: '+43067763107794',
+    phone: '+4367763107794',
     github: 'https://github.com/B1toks',
     linkedin: 'https://www.linkedin.com/in/honchar-oleksandr/',
   },
@@ -48,7 +48,7 @@ export const profile = {
     },
   ],
   skills: {
-    'Languages & Frameworks': ['React', 'TypeScript', 'Next.js', 'JavaScript', 'HTML5', 'CSS3', 'SCSS', 'Python'],
+    'Languages & Frameworks': ['React', 'TypeScript', 'Next.js', 'JavaScript', 'HTML5', 'CSS3', 'SCSS'],
     'Tools & Libraries':       ['Tailwind CSS', 'ShadCN UI', 'Vite', 'Git', 'Supabase', 'OpenStreetMap'],
     'Platforms':               ['WordPress / Elementor', 'Vercel', 'GitHub Pages'],
     'Workflow':                ['AI-assisted engineering', 'WebStorm AI', 'Agile / Scrum'],

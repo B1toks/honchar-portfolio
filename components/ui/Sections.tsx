@@ -438,14 +438,17 @@ export function ContentSections() {
                 Currently exploring
               </p>
               <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/[0.1] text-emerald-200 border border-emerald-500/20">
+                  Node + Express
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/[0.1] text-purple-200 border border-purple-500/20">
+                  LLM-integration
+                </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/[0.1] text-indigo-200 border border-indigo-500/20">
-                  Three.js / R3F
+                  R3F · Framer Motion
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/[0.1] text-amber-200 border border-amber-500/20">
                   German A1 → A2
-                </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-pink-500/[0.1] text-pink-200 border border-pink-500/20">
-                  Awwwards-craft
                 </span>
               </div>
             </div>
@@ -617,10 +620,29 @@ export function ContentSections() {
         </Bento>
       </div>
 
-      <footer className="mt-10 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] font-mono text-ink-500">
-        <span>© 2026 Oleksandr Honchar · v1.0</span>
-        <span>Crafted with Next.js · React Three Fiber · Tailwind</span>
-      </footer>
+      {/* Tech-transparency block — answers "what's actually in the box" */}
+      <div className="mt-10 pt-6 border-t border-white/[0.06] space-y-2 text-[11px] font-mono text-ink-500">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <span className="text-ink-400">
+            <span className="text-ink-300">Built with</span>
+            {' '}Next.js 14 (App Router) · React 18 · React Three Fiber · Tailwind · Framer Motion · TypeScript
+          </span>
+          <span>
+            <span className="text-ink-300">Deploy</span> Vercel · static SSG · no backend
+          </span>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <a
+            href="https://github.com/B1toks/honchar-portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ink-400 hover:text-indigo-300 transition-colors"
+          >
+            ◉ Source · github.com/B1toks/honchar-portfolio
+          </a>
+          <span>© 2026 Oleksandr Honchar · v1.0</span>
+        </div>
+      </div>
     </section>
     </>
   );

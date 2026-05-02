@@ -107,8 +107,12 @@ export function Piece({
   children,
 }: PieceProps & { children: React.ReactNode }) {
   const groupRef = useRef<THREE.Group>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const accent = ACCENT[project.color];
+  // per-piece phase so halos pulse out of sync (more "alive")
+  const phaseRef = useRef(Math.random() * Math.PI * 2);
 
   useFrame((state, dt) => {
     const g = groupRef.current;
@@ -122,6 +126,35 @@ export function Piece({
     // hover scale
     const target = hovered ? 1.15 : 1;
     g.scale.lerp(new THREE.Vector3(target, target, target), 0.12);
+
+    // halo + ring sit on the board floor regardless of piece's bob/jump.
+    // counter-translate to cancel parent's Y, so world y stays ~0 (board surface).
+    const groupY = g.position.y;
+    const groupScale = g.scale.y || 1;
+    const halo = haloRef.current;
+    if (halo) {
+      const pulse = (Math.sin(now * 1.6 + phaseRef.current) + 1) / 2; // 0..1
+      const mat = halo.material as THREE.MeshBasicMaterial;
+      const idleOpacity = 0.3 + pulse * 0.18; // ~0.30..0.48
+      mat.opacity = hovered || isSelected ? 0.7 : idleOpacity;
+      // scale is X/Z only — keep halo flat on floor without scaling its Y offset
+      const visualScale = hovered || isSelected ? 1.25 : 0.95 + pulse * 0.12;
+      halo.scale.set(visualScale, visualScale, visualScale);
+      // pin world-Y to 0.04 (just above cell top at ~0.03) so halo isn't
+      // occluded by the board cells — depth test would hide it underneath.
+      halo.position.y = (0.04 - groupY) / groupScale;
+    }
+
+    // expanding click-me ring (ripples outward, fades) — also pinned to floor
+    const ring = ringRef.current;
+    if (ring) {
+      const t = (now * 0.7 + phaseRef.current) % 1; // 0..1 every ~1.4s
+      const mat = ring.material as THREE.MeshBasicMaterial;
+      mat.opacity = hovered || isSelected ? 0 : (1 - t) * 0.35;
+      const ringScale = 0.9 + t * 0.7; // 0.9..1.6
+      ring.scale.set(ringScale, ringScale, ringScale);
+      ring.position.y = (0.038 - groupY) / groupScale;
+    }
   });
 
   return (
@@ -144,13 +177,26 @@ export function Piece({
         onSelect(project.id);
       }}
     >
-      {/* glow halo under piece */}
-      <mesh position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.5, 32]} />
+      {/* expanding ripple ring — "click me" cue at idle */}
+      <mesh ref={ringRef} position={[0, 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.45, 0.55, 48]} />
         <meshBasicMaterial
           color={accent}
           transparent
-          opacity={hovered || isSelected ? 0.55 : 0.22}
+          opacity={0}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* glow halo under piece — pulses gently at idle, brighter on hover */}
+      <mesh ref={haloRef} position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.55, 32]} />
+        <meshBasicMaterial
+          color={accent}
+          transparent
+          opacity={0.35}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
