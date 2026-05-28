@@ -1,10 +1,11 @@
 export const profile = {
   name: 'Oleksandr Honchar',
-  tagline: 'Junior Front-End Developer',
+  tagline: 'Front-End Developer',
   roles: [
-    'Junior Front-End Developer',
+    'Front-End Developer',
     'Software Engineering student · Erasmus+ in Austria',
     'React · TypeScript · Next.js · Tailwind',
+    'Expanding into full-stack · Node/Express in active development',
     'Creative-leaning developer · Builder first',
   ],
   location: {
@@ -38,18 +39,18 @@ export const profile = {
     },
     {
       degree: 'B.Sc. Computer Engineering',
-      school: 'Cherkasy State Business College, Ukraine',
+      school: 'Cherkasy State Business College, Ukraine · continued track',
       period: '2025 — Present',
     },
     {
-      degree: 'Software Engineering Degree',
-      school: 'Cherkasy State Business College, Ukraine',
+      degree: 'Junior Bachelor · Software Engineering',
+      school: 'Cherkasy State Business College, Ukraine · with distinction',
       period: '2021 — 2025',
     },
   ],
   skills: {
     'Languages & Frameworks': ['React', 'TypeScript', 'Next.js', 'JavaScript', 'HTML5', 'CSS3', 'SCSS'],
-    'Tools & Libraries':       ['Tailwind CSS', 'ShadCN UI', 'Vite', 'Git', 'Supabase', 'OpenStreetMap'],
+    'Tools & Libraries':       ['Tailwind CSS', 'ShadCN UI', 'Vite', 'Git', 'Zustand', 'Redux', 'Supabase', 'OpenStreetMap'],
     'Platforms':               ['WordPress / Elementor', 'Vercel', 'GitHub Pages'],
     'Workflow':                ['AI-assisted engineering', 'WebStorm AI', 'Agile / Scrum'],
   },

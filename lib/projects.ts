@@ -8,6 +8,13 @@ export interface ProjectLink {
   icon: 'external' | 'star' | 'github' | 'linkedin' | 'mail';
 }
 
+export interface ProjectTestimonial {
+  quote: string;
+  author: string;
+  context?: string;        // "ShowPlus · Client", "NiftyHR · trust signal"
+  kind?: 'quote' | 'signal'; // 'signal' renders without quote marks (factual note)
+}
+
 export interface Project {
   id: PieceId;
   pieceLabel: string;      // "King", "Queen", etc. for the 3D tooltip
@@ -20,6 +27,7 @@ export interface Project {
   tech: string[];
   links?: ProjectLink[];
   highlights?: string[];   // bullets for the modal
+  testimonial?: ProjectTestimonial;
   color: AccentColor;
   isPlaceholder?: boolean; // Queen = "seeking" placeholder
 }
@@ -29,17 +37,17 @@ export const projects: Project[] = [
     id: 'king',
     pieceLabel: 'King',
     title: 'Subutai — Kinetic Chess',
-    subtitle: 'EPS Project · Selected for Lucid Dreams 2026',
+    subtitle: 'EPS Project · Exhibited at Lucid Dreams 2026',
     role: 'Technical Lead',
     period: 'Feb 2026 — Present',
-    summary: 'Chess 960 variant with dynamically rotating 2×2 board segments.',
+    summary: 'Chess on a rotating 2×2 segmented board — players pivot a quadrant between moves.',
     body:
-      "An innovative kinetic chess game where 2×2 segments of the board rotate mid-game, forcing players to re-read the position on every turn. Architected solo as Technical Lead for a 5-person international team at FH St. Pölten. Selected exhibitor at Lucid Dreams 2026 (Projekt 027) — the annual interactive media showcase where invited student teams present their work to a public audience.",
+      "Kinetic chess installation: each turn, a player can rotate a 2×2 segment of the board — forcing both sides to re-read the position. Concept co-created with Viktor Schetinger; I led the technical implementation for a 5-person international team at FH St. Pölten. ~5–6 weeks concept → ship. Exhibited at Lucid Dreams 2026 (Projekt 027) — ~120 visitors over 2 days, ~50 played the installation (5–7 min average sessions).",
     highlights: [
-      'Architected Chess 960 variant with dynamically rotating 2×2 board segments',
-      'Engineered segment rotation math, custom castling rules, and global state synchronization',
-      'Solo technical lead for a 5-person international team — delivered a performant React app',
-      'Selected exhibitor at Lucid Dreams 2026 · Projekt 027 (FH St. Pölten)',
+      'Move validator on rotating coordinates — castling and en-passant on a pivoted board',
+      'Replay system that survives mid-game rotations and reconstructs state correctly',
+      'Music/audio layer synced with segment-rotation animations — timing-critical state machine',
+      '~120 visitors at Lucid Dreams 2026 · ~50 played the installation live',
     ],
     tech: ['React', 'TypeScript', 'Vite', 'Tailwind', 'ShadCN'],
     links: [
@@ -61,7 +69,7 @@ export const projects: Project[] = [
     highlights: [
       'Energised by the full loop: ideation → ship → real-user reaction',
       'Long-term direction: creative technology · WebGL · design engineering',
-      'Available now · Vienna / St. Pölten / Remote',
+      'Based in St. Pölten · open to Vienna & Remote',
     ],
     tech: ['Ownership', 'Curiosity', 'Audience', 'Craft'],
     links: [
@@ -100,13 +108,20 @@ export const projects: Project[] = [
     role: 'Interim Front-End Developer',
     period: 'May 2025 — Jul 2025',
     summary:
-      'Short contract on a commercial HR platform during a developer handover.',
+      'Short contract on a live HR platform — built the registration module during a developer handover.',
     body:
-      'A short contract on a live commercial HR platform during a developer handover. Debugged, shipped features, and kept delivery continuous while the team transitioned.',
+      'Joined a live commercial HR platform during a developer handover. Built one of the registration flows (4 screens) end-to-end — input validation, API integration, and a steady stream of bug fixes against the existing codebase. Private project — live URL under NDA.',
     highlights: [
-      'Maintained delivery momentum through a developer handover',
-      'Continuous feature delivery under real production constraints',
+      'Built registration flow (4 screens) — validation + API integration',
+      '~12 bug fixes shipped across the 2-month handover',
+      'Worked against an unfamiliar codebase under real production constraints',
     ],
+    testimonial: {
+      kind: 'signal',
+      quote: 'After diploma defense, the NiftyHR contact invited me back for a new commercial project — repeat trust over a single hire.',
+      author: 'Artem Danko',
+      context: 'NiftyHR · trust signal',
+    },
     tech: ['React', 'TypeScript'],
     color: 'cyan',
   },
@@ -117,14 +132,20 @@ export const projects: Project[] = [
     subtitle: 'Commercial Rental Platform',
     role: 'Web Developer',
     summary:
-      "First commercial project — translated client requirements into a functional business tool.",
+      'Rental platform for inflatable attractions — concept to ship in ~2 weeks of client iteration.',
     body:
-      'A rental service platform for inflatable attractions — my first real taste of commercial web work. Customised Elementor components, optimised performance, and shipped cross-device responsiveness against tight client requirements.',
+      'Rental service platform for a Ukrainian inflatable mascot manufacturer. WordPress with customised Elementor components, a custom contact form written in vanilla JS (free plugins blocked email delivery), 2-language ready, mobile-first. Worked directly with the client — concept → revisions → ship.',
     highlights: [
-      'Customised Elementor components against client requirements',
-      'Optimised site performance + cross-device responsiveness',
-      'First commercial client engagement — learned the business side',
+      'Customised Elementor components against client brief',
+      'Custom contact form in vanilla JS — email delivery without paid plugins',
+      'Mobile-first responsive, 2-language ready, performance-tuned',
     ],
+    testimonial: {
+      kind: 'quote',
+      quote: 'Thank you very much for your timely work!',
+      author: 'Mariana Verkhovtseva',
+      context: 'ShowPlus · Client (translated from Ukrainian)',
+    },
     tech: ['WordPress', 'Elementor', 'Contact Form 7'],
     links: [
       { label: 'Live', href: 'https://showplus-inflatables.com/', icon: 'external' },

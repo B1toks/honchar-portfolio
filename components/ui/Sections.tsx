@@ -29,10 +29,10 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal?: () => void }) {
           <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
         </span>
-        <span className="text-ink-300 tracking-wider">AVAILABLE · JUNIOR FE / WERKSTUDENT</span>
+        <span className="text-ink-300 tracking-wider">AVAILABLE · FE / WERKSTUDENT · ST. PÖLTEN / VIENNA / REMOTE</span>
       </div>
       <div className="hidden sm:flex items-center gap-3 text-ink-400">
-        <span>Vienna {time}</span>
+        <span>St. Pölten {time}</span>
         <span className="text-ink-700">|</span>
         {onOpenTerminal && (
           <button
@@ -175,28 +175,24 @@ export function ContentSections() {
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80 mb-4">Bio</p>
           <div className="space-y-3 text-base md:text-[17px] text-ink-300 leading-relaxed">
             <p>
-              A <span className="text-ink-100">Front-End Developer</span> currently on
-              <span className="text-ink-100"> Erasmus+</span> in Austria. Core stack:
-              <span className="text-ink-100"> React, TypeScript, Next.js, Tailwind</span>.
-              My strength is taking a concept, refining it with the team, and carrying
-              the technical implementation from prototype to the people who actually use it.
+              <span className="text-ink-100">Front-End Developer</span> based in Sankt Pölten,
+              currently on <span className="text-ink-100">Erasmus+</span> at FH St. Pölten.
+              Stack: <span className="text-ink-100">React, TypeScript, Next.js, Tailwind</span> —
+              expanding into <span className="text-ink-100">full-stack with Node/Express</span> in
+              active development. I take concepts to ship — built it as a player,
+              not just a developer.
             </p>
             <p>
-              Before code, I worked in <span className="text-ink-100">visual design</span> —
-              Photoshop, Illustrator, freelance commissions. That background is why I care
-              about how interfaces <em className="text-ink-100 not-italic font-medium">feel</em>,
+              Before code, <span className="text-ink-100">visual design</span> —
+              Photoshop, Illustrator, freelance commissions. That&apos;s why I care
+              how interfaces <em className="text-ink-100 not-italic font-medium">feel</em>,
               not just how they function.
             </p>
             <p>
-              I've played competitive chess. So when I became technical lead on
-              <span className="text-ink-100"> Subutai</span> — a kinetic chess variant
-              exhibited at <span className="text-ink-100">Lucid Dreams 2026</span> — I
-              understood the game from the inside, not just the spec.
-            </p>
-            <p>
-              Long-term I'm heading toward
-              <span className="text-ink-100"> creative technology</span>. But
-              <span className="text-ink-100"> builder first</span>.
+              Technical lead on <span className="text-ink-100">Subutai</span> — a kinetic
+              chess installation co-created with Viktor Schetinger, exhibited at
+              <span className="text-ink-100"> Lucid Dreams 2026</span> (~120 visitors,
+              ~50 played it live). Builder first today, creative technologist later.
             </p>
           </div>
         </Bento>
@@ -395,47 +391,47 @@ export function ContentSections() {
         <Bento className="col-span-6 md:col-span-3 p-6" glow="indigo">
           <div className="flex flex-col h-full">
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-400/80">
-              By the numbers
+              Shipped, measured
             </p>
             <div className="grid grid-cols-2 gap-x-3 gap-y-4 mt-4">
               <div>
                 <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent leading-none">
-                  6+
+                  84
                 </p>
                 <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
-                  Shipped projects
+                  Lighthouse Perf · this site
                 </p>
               </div>
               <div>
                 <p className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-cyan-300 bg-clip-text text-transparent leading-none">
-                  3
+                  ~120
                 </p>
                 <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
-                  Pro terms
+                  Subutai · live visitors
                 </p>
               </div>
               <div>
                 <p className="text-3xl font-bold bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent leading-none">
-                  3
+                  ~50
                 </p>
                 <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
-                  Languages
+                  Played the install
                 </p>
               </div>
               <div>
                 <p className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-pink-300 bg-clip-text text-transparent leading-none">
-                  2
+                  5–6w
                 </p>
                 <p className="text-[10px] font-mono text-ink-500 mt-1.5 uppercase tracking-wider">
-                  Countries
+                  Concept → ship
                 </p>
               </div>
             </div>
 
-            {/* currently exploring footer — fills the card */}
+            {/* What's next footer — fills the card */}
             <div className="mt-auto pt-5 border-t border-white/[0.05]">
               <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-ink-500 mb-2">
-                Currently exploring
+                What&apos;s next in my stack
               </p>
               <div className="flex flex-wrap gap-1.5">
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/[0.1] text-emerald-200 border border-emerald-500/20">
@@ -527,7 +523,7 @@ export function ContentSections() {
               2× College Tournament Winner
             </p>
             <p className="mt-3.5 text-[12.5px] text-ink-400 leading-relaxed">
-              Led Subutai&apos;s technical implementation as a player — understood the game from the inside, not just the spec.
+              Led Subutai&apos;s technical implementation as a chess player — built the move validator from the inside.
             </p>
           </div>
         </Bento>
@@ -570,7 +566,46 @@ export function ContentSections() {
     </section>
 
     {/* =============================================================
-         04 / GET IN TOUCH
+         04 / WHAT PEOPLE SAID — single hero quote before contact CTA
+         ============================================================= */}
+    <section className="relative px-4 md:px-8 pt-6 pb-10 md:pb-12 max-w-4xl mx-auto">
+      <div className="relative rounded-3xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/[0.06] via-purple-500/[0.04] to-transparent p-8 md:p-14 overflow-hidden">
+        <span
+          aria-hidden="true"
+          className="absolute -top-10 left-4 md:left-8 text-[180px] md:text-[240px] leading-none font-serif text-indigo-400/15 select-none pointer-events-none"
+        >
+          &ldquo;
+        </span>
+        <div
+          className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-30 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.30), transparent 60%)' }}
+        />
+        <div className="relative">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-indigo-300/70 mb-6">
+            04 / What people said
+          </p>
+          <blockquote>
+            <p className="text-xl md:text-2xl lg:text-[28px] font-medium leading-snug text-ink-100 tracking-tight max-w-3xl">
+              Very impressed by the idea — and the execution is impressive.
+              Really something new and very cool. Thank you for such an experience.
+            </p>
+            <footer className="mt-6 flex items-center gap-3">
+              <span className="h-px w-10 bg-indigo-400/40" />
+              <div className="font-mono text-[11.5px]">
+                <span className="text-ink-200">Anonymous visitor</span>
+                <span className="text-ink-500"> · Lucid Dreams 2026 · Subutai exhibit</span>
+              </div>
+            </footer>
+          </blockquote>
+          <p className="mt-7 text-[11px] font-mono text-ink-500">
+            More quotes inside individual project cards above.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* =============================================================
+         05 / GET IN TOUCH
          ============================================================= */}
     <section className="relative px-4 md:px-8 pt-10 pb-16 md:pb-24 max-w-6xl mx-auto">
       <div className="grid grid-cols-6 gap-3 md:gap-4">
@@ -589,7 +624,10 @@ export function ContentSections() {
                 Got a role or a project in mind?
               </h3>
               <p className="text-ink-300 mt-2">
-                Based in {profile.location.city} — open across Austria and remote.
+                Based in {profile.location.city} — open to Vienna and remote.
+              </p>
+              <p className="text-ink-400 text-[13px] mt-1.5 font-mono">
+                Replies within 24 hours.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">

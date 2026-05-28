@@ -65,10 +65,10 @@ export const timelineEvents: TimelineEvent[] = [
     date: 'Jan 2025',
     dateEnd: 'Mar 2025',
     title: 'ShowPlus — Commercial Rental Platform',
-    tag: 'First commercial project',
+    tag: 'Commercial · WordPress',
     role: 'Web Developer · client work',
     description:
-      'First paid commercial engagement — built a rental service platform for inflatable attractions on WordPress with customised Elementor components. Optimised performance and cross-device responsiveness against tight client requirements.',
+      'Rental service platform for inflatable attractions — WordPress with customised Elementor components, custom contact form (vanilla JS), 2-language ready. Worked directly with the client over ~2 weeks: concept → revisions → ship.',
     stack: ['WordPress', 'Elementor', 'Contact Form 7'],
     links: [
       { label: 'Live', href: 'https://showplus-inflatables.com/' },

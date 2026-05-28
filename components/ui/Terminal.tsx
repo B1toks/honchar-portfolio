@@ -41,7 +41,7 @@ function execute(raw: string): string {
     case 'whoami':
       return [
         'Oleksandr Honchar',
-        'Junior Front-End Developer · currently on Erasmus+ in Austria.',
+        'Front-End Developer · currently on Erasmus+ in Austria.',
         'React · TypeScript · Next.js · Tailwind. Builder first, creative technologist later.',
       ].join('\n');
 
@@ -71,7 +71,7 @@ function execute(raw: string): string {
         'Feb 2026 — Present   Subutai · Technical Lead (Erasmus+ project at FH St. Pölten)',
         'May 2025 — Jul 2025  NiftyHR · Interim Front-End',
         'Mar 2025 — Jun 2025  mIGHT LMS · Lead Developer',
-        'Jan 2025 — Mar 2025  ShowPlus · First commercial project',
+        'Jan 2025 — Mar 2025  ShowPlus · Commercial · WordPress',
         'Jan 2025 — Feb 2025  eKreative · Internship II (invited back)',
         'Jan 2024 — Feb 2024  eKreative · Internship I',
       ].join('\n');
@@ -88,7 +88,7 @@ function execute(raw: string): string {
       ].join('\n');
 
     case 'status':
-      return '● Available · Junior FE / Werkstudent · Vienna / St. Pölten / Remote';
+      return '● Available · Junior FE / Werkstudent · St. Pölten · open to Vienna & Remote';
 
     case 'clear':
       return '__CLEAR__';

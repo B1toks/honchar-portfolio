@@ -64,7 +64,7 @@ export function ProjectModal({
           />
           <motion.div
             key={project.id}
-            className={`relative w-full max-w-2xl rounded-[28px] border ${ACCENT_CLASSES[project.color].split(' ').slice(-2).join(' ')} bg-gradient-to-br from-ink-700/90 via-ink-800/90 to-ink-900 backdrop-blur-xl p-8 md:p-10 overflow-hidden`}
+            className={`relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[28px] border ${ACCENT_CLASSES[project.color].split(' ').slice(-2).join(' ')} bg-gradient-to-br from-ink-700/90 via-ink-800/90 to-ink-900 backdrop-blur-xl overflow-hidden`}
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -78,12 +78,12 @@ export function ProjectModal({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 flex items-center justify-center text-ink-300 hover:text-white transition-all z-10"
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 flex items-center justify-center text-ink-300 hover:text-white transition-all z-20"
             >
               ×
             </button>
 
-            <div className="relative">
+            <div className="relative flex-1 min-h-0 overflow-y-auto p-8 md:p-10">
               <div className="flex items-center gap-2 mb-5">
                 <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 ${LABEL_COLOR[project.color]}`}>
                   {project.pieceLabel} · {project.subtitle}
@@ -117,6 +117,26 @@ export function ProjectModal({
                     </li>
                   ))}
                 </ul>
+              )}
+
+              {project.testimonial && (
+                <div className={`mt-6 relative rounded-2xl border border-white/[0.08] bg-white/[0.02] px-5 py-4 overflow-hidden`}>
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -top-3 left-3 text-[64px] leading-none font-serif select-none pointer-events-none opacity-25 ${LABEL_COLOR[project.color]}`}
+                  >
+                    {project.testimonial.kind === 'signal' ? '↩' : '"'}
+                  </span>
+                  <p className="relative text-[13.5px] leading-relaxed text-ink-200 italic pl-7">
+                    {project.testimonial.quote}
+                  </p>
+                  <p className="relative mt-2 pl-7 text-[11px] font-mono not-italic">
+                    <span className="text-ink-300">— {project.testimonial.author}</span>
+                    {project.testimonial.context && (
+                      <span className="text-ink-500"> · {project.testimonial.context}</span>
+                    )}
+                  </p>
+                </div>
               )}
 
               <div className="mt-6 flex flex-wrap gap-1.5">
