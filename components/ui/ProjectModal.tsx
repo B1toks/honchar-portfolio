@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { track } from '@vercel/analytics';
 import type { Project } from '@/lib/projects';
 
 const ACCENT_CLASSES: Record<Project['color'], string> = {
@@ -158,6 +159,7 @@ export function ProjectModal({
                       href={l.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track('project_link_clicked', { project: project.title, label: l.label })}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 text-sm font-medium transition-all"
                     >
                       <span className="text-[11px] opacity-80">{ICON_MAP[l.icon]}</span>

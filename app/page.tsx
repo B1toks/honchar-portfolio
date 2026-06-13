@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { track } from '@vercel/analytics';
 import { ProjectModal } from '@/components/ui/ProjectModal';
 import { Nav, HeroOverlay, Hint, ContentSections } from '@/components/ui/Sections';
 import { Terminal } from '@/components/ui/Terminal';
@@ -27,6 +28,12 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<PieceId | null>(null);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const selected = selectedId ? projectById(selectedId) : null;
+
+  // engagement events — a single-page site has no second pageview,
+  // so these are what stand in for "did they actually look around"
+  useEffect(() => {
+    if (terminalOpen) track('terminal_opened');
+  }, [terminalOpen]);
 
   // Keyboard shortcut: ` (backtick) or ~ to toggle terminal
   useEffect(() => {
@@ -70,7 +77,10 @@ export default function Home() {
 
         <div className="absolute inset-0">
           <Scene
-            onSelect={(id) => setSelectedId(id)}
+            onSelect={(id) => {
+              setSelectedId(id);
+              track('piece_clicked', { piece: id, project: projectById(id)?.title ?? id });
+            }}
             selectedId={selectedId}
           />
         </div>

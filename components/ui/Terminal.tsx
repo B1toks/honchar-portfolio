@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { track } from '@vercel/analytics';
 import { profile } from '@/lib/profile';
 
 const PROMPT = 'visitor@honchar:~$ ';
@@ -242,6 +243,7 @@ export function Terminal({
     setCmdIdx(-1);
     if (raw.trim()) {
       setCmdHistory((h) => [raw, ...h]);
+      track('terminal_command', { command: raw.trim().toLowerCase() });
     }
     setHistory((h) => [
       ...h,

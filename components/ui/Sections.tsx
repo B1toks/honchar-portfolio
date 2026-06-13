@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { track } from '@vercel/analytics';
 import { profile } from '@/lib/profile';
 import { Timeline } from './Timeline';
 
@@ -49,6 +50,7 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal?: () => void }) {
           href="https://b1toks.github.io/cv/"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track('cv_clicked', { from: 'nav' })}
           className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent hover:bg-accent-glow text-white transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.45)]"
         >
           <span>↗</span> View CV
@@ -633,6 +635,7 @@ export function ContentSections() {
             <div className="flex flex-wrap gap-2.5">
               <a
                 href={`mailto:${profile.contact.email}`}
+                onClick={() => track('contact_clicked', { channel: 'email' })}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent hover:bg-accent-glow text-white text-sm font-medium transition-all hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]"
               >
                 ✉ Email me
@@ -641,6 +644,7 @@ export function ContentSections() {
                 href={profile.contact.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track('contact_clicked', { channel: 'linkedin' })}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 text-sm font-medium transition-all hover:border-white/25"
               >
                 in · LinkedIn
@@ -649,6 +653,7 @@ export function ContentSections() {
                 href={profile.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track('contact_clicked', { channel: 'github' })}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 text-sm font-medium transition-all hover:border-white/25"
               >
                 ◉ GitHub
