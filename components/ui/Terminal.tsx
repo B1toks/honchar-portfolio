@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { track } from '@vercel/analytics';
 import { profile } from '@/lib/profile';
+import { SUBUTAI_URL } from '@/lib/links';
 
 const PROMPT = 'visitor@honchar:~$ ';
 
@@ -53,7 +54,7 @@ function execute(raw: string): string {
 
     case 'projects': {
       const list = [
-        { t: 'Subutai — Kinetic Chess (EPS · Lucid Dreams 2026)', l: 'https://b1toks.github.io/subutai/' },
+        { t: 'Subutai — Kinetic Chess (EPS · Lucid Dreams 2026)', l: SUBUTAI_URL },
         { t: 'mIGHT — Learning Management System',                l: 'https://project-g-b1toks-projects.vercel.app/' },
         { t: 'ShowPlus — Commercial Rental Platform',             l: 'https://showplus-inflatables.com/' },
         { t: 'NiftyHR — Interim FE contract (May–Jul 2025)',      l: '' },

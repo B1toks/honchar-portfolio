@@ -11,7 +11,10 @@ body {
   background: #030712;
   color: #f1f5f9;
   -webkit-font-smoothing: antialiased;
+  /* `hidden` on html/body turns body into a scroll container, which silently breaks
+     position: sticky (the pinned Path strip). `clip` cuts the overflow without that. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -39,7 +42,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   opacity: 0.025;
   pointer-events: none;
-  mix-blend-mode: overlay;
 }
 
 .gradient-stroke {
@@ -66,6 +68,16 @@ body {
   opacity: 0;
 }
 
+/* Path scene (PathStrip.tsx): on short desktop windows the pinned screen has less room,
+   so the cards tighten up to keep the tallest one (Subutai) from being clipped. */
+@media (min-width: 768px) and (max-height: 780px) {
+  /* element + class: must out-rank Tailwind's md:p-8 / md:gap-8 utilities */
+  article.path-card {
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+}
+
 .bento {
   transition:
     transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -73,3 +85,34 @@ body {
     box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .bento:hover { transform: translateY(-4px); }
+
+/* "Scroll this way" arrow (scrollfx.tsx ArrowCue): the line draws itself towards the right,
+   the head fades in once it arrives, and the whole arrow keeps nudging that way. */
+@keyframes arrow-draw {
+  0%   { stroke-dashoffset: 1; opacity: 0; }
+  10%  { opacity: 1; }
+  55%  { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes arrow-head {
+  0%, 42% { opacity: 0; }
+  60%, 100% { opacity: 1; }
+}
+@keyframes arrow-nudge {
+  0%, 55% { transform: translateX(0); }
+  78% { transform: translateX(18px); }
+  100% { transform: translateX(0); }
+}
+.arrow-cue-line {
+  stroke-dasharray: 1;
+  animation: arrow-draw 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.arrow-cue-head {
+  animation: arrow-head 3.2s ease-out infinite;
+}
+.arrow-cue-move {
+  animation: arrow-nudge 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .arrow-cue-line, .arrow-cue-head, .arrow-cue-move { animation: none; stroke-dasharray: none; }
+}

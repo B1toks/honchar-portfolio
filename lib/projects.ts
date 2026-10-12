@@ -1,3 +1,5 @@
+import { SUBUTAI_URL } from './links';
+
 export type PieceId = 'king' | 'queen' | 'knight' | 'rook' | 'bishop' | 'pawn';
 
 export type AccentColor = 'indigo' | 'purple' | 'cyan' | 'pink' | 'emerald' | 'amber';
@@ -42,16 +44,16 @@ export const projects: Project[] = [
     period: 'Feb 2026 — Present',
     summary: 'Chess on a rotating 2×2 segmented board — players pivot a quadrant between moves.',
     body:
-      "Kinetic chess installation: each turn, a player can rotate a 2×2 segment of the board — forcing both sides to re-read the position. Concept co-created with Viktor Schetinger; I led the technical implementation for a 5-person international team at FH St. Pölten. ~5–6 weeks concept → ship. Exhibited at Lucid Dreams 2026 (Projekt 027) — ~120 visitors over 2 days, ~50 played the installation (5–7 min average sessions).",
+      "Kinetic chess installation: each turn, a player can rotate a 2×2 segment of the board — forcing both sides to re-read the position. Concept co-created with Viktor Schetinger; I led the technical implementation for a 5-person international team at FH St. Pölten. ~5–6 weeks concept → ship. Exhibited at Lucid Dreams 2026 (Projekt 027) — ~120 visitors over 2 days, ~80 played the installation (5–7 min average sessions).",
     highlights: [
       'Move validator on rotating coordinates — castling and en-passant on a pivoted board',
       'Replay system that survives mid-game rotations and reconstructs state correctly',
       'Music/audio layer synced with segment-rotation animations — timing-critical state machine',
-      '~120 visitors at Lucid Dreams 2026 · ~50 played the installation live',
+      '~120 visitors at Lucid Dreams 2026 · ~80 played the installation live',
     ],
     tech: ['React', 'TypeScript', 'Vite', 'Tailwind', 'ShadCN'],
     links: [
-      { label: 'Live demo', href: 'https://b1toks.github.io/subutai/', icon: 'external' },
+      { label: 'Live demo', href: SUBUTAI_URL, icon: 'external' },
       { label: 'Lucid Dreams · Projekt 027', href: 'https://www.lucid-dreams.at/2026-projekte/projekt-027', icon: 'star' },
     ],
     color: 'indigo',

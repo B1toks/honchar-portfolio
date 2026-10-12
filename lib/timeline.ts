@@ -1,3 +1,5 @@
+import { SUBUTAI_URL } from './links';
+
 export type TimelineColor =
   | 'indigo'
   | 'purple'
@@ -8,6 +10,8 @@ export type TimelineColor =
 
 export interface TimelineEvent {
   id: string;
+  /** label under the dot on the progress rail — keep it to one or two words */
+  short: string;
   date: string;
   dateEnd?: string;
   title: string;
@@ -34,6 +38,7 @@ export interface TimelineEvent {
 export const timelineEvents: TimelineEvent[] = [
   {
     id: 'ekreative-i',
+    short: 'eKreative I',
     date: 'Jan 2024',
     dateEnd: 'Feb 2024',
     title: 'eKreative — Internship I',
@@ -48,6 +53,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 'ekreative-ii',
+    short: 'eKreative II',
     date: 'Jan 2025',
     dateEnd: 'Feb 2025',
     title: 'eKreative — Internship II',
@@ -62,6 +68,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 'showplus',
+    short: 'ShowPlus',
     date: 'Jan 2025',
     dateEnd: 'Mar 2025',
     title: 'ShowPlus — Commercial Rental Platform',
@@ -79,6 +86,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 'might',
+    short: 'mIGHT',
     date: 'Mar 2025',
     dateEnd: 'Jun 2025',
     title: 'mIGHT — Learning Management System',
@@ -96,6 +104,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 'niftyhr',
+    short: 'NiftyHR',
     date: 'May 2025',
     dateEnd: 'Jul 2025',
     title: 'NiftyHR',
@@ -112,6 +121,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 'subutai',
+    short: 'Subutai',
     date: 'Feb 2026',
     dateEnd: 'Present',
     title: 'Subutai — Kinetic Chess',
@@ -122,7 +132,7 @@ export const timelineEvents: TimelineEvent[] = [
       'Built during my Erasmus+ exchange at FH St. Pölten — a Chess 960 variant with dynamically rotating 2×2 board segments and custom castling rules. Owned the technical implementation end-to-end. Selected exhibitor at Lucid Dreams 2026 (Projekt 027).',
     stack: ['React', 'TypeScript', 'Vite', 'Tailwind', 'ShadCN'],
     links: [
-      { label: 'Live demo', href: 'https://b1toks.github.io/subutai/' },
+      { label: 'Live demo', href: SUBUTAI_URL },
       { label: '✦ Lucid Dreams · Projekt 027', href: 'https://www.lucid-dreams.at/2026-projekte/projekt-027' },
     ],
     screenshot: '/screenshots/subutai.png',

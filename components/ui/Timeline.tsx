@@ -1,8 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useCallback, useRef, useState } from 'react';
+import { motion, type MotionValue } from 'framer-motion';
+import { track } from '@vercel/analytics';
 import { timelineEvents, type TimelineEvent, type TimelineColor } from '@/lib/timeline';
+import { SUBUTAI_URL, SUBUTAI_REPO_URL } from '@/lib/links';
+import { ArrowCue } from './scrollfx';
+
+/* ============================================================
+   Path — career events as cards, then one closing panel that leads
+   to the live product.
+
+   The cards are shared: PathStrip.tsx lays them out on the pinned
+   sideways stage (desktop); PathSnap below is the phone / short window /
+   reduced-motion version: a native horizontal scroll-snap list that
+   hijacks nothing.
+   ============================================================ */
+
+export type PathItem = { kind: 'event'; event: TimelineEvent } | { kind: 'finale' };
+
+/** Every career event, then the finale. */
+export const PATH_ITEMS: PathItem[] = [
+  ...timelineEvents.map((event): PathItem => ({ kind: 'event', event })),
+  { kind: 'finale' },
+];
+
+export const pathKey = (item: PathItem) => (item.kind === 'event' ? item.event.id : 'finale');
+export const pathShort = (item: PathItem) => (item.kind === 'event' ? item.event.short : 'Live');
 
 /* ============================================================
    Screenshot frame — image with graceful fallback to placeholder
@@ -13,18 +37,20 @@ function ScreenshotFrame({
   caption,
   eventId,
   aspect = 'aspect-video',
+  className = 'mt-4',
 }: {
   src: string;
   alt: string;
   caption?: string;
   eventId: string;
   aspect?: string;
+  className?: string;
 }) {
   const [errored, setErrored] = useState(false);
 
   if (errored) {
     return (
-      <div className={`mt-4 ${aspect} rounded-lg bg-gradient-to-br from-ink-800 to-ink-900 border border-dashed border-white/[0.08] flex items-center justify-center`}>
+      <div className={`${className} ${aspect} rounded-lg bg-gradient-to-br from-ink-800 to-ink-900 border border-dashed border-white/[0.08] flex items-center justify-center`}>
         <div className="text-center px-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-500">
             Screenshot placeholder
@@ -39,7 +65,7 @@ function ScreenshotFrame({
   }
 
   return (
-    <figure className="mt-4">
+    <figure className={className}>
       <div className={`${aspect} rounded-lg overflow-hidden border border-white/[0.08] bg-ink-900`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -66,8 +92,6 @@ function ScreenshotFrame({
    ============================================================ */
 const COLORS: Record<TimelineColor, {
   dot: string;
-  ring: string;
-  pingBg: string;
   role: string;
   tagBg: string;
   hoverBorder: string;
@@ -77,8 +101,6 @@ const COLORS: Record<TimelineColor, {
 }> = {
   indigo: {
     dot: 'bg-indigo-500',
-    ring: 'ring-indigo-500/25',
-    pingBg: 'bg-indigo-400',
     role: 'text-indigo-300/80',
     tagBg: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/25',
     hoverBorder: 'group-hover/tl:border-indigo-400/40',
@@ -87,8 +109,6 @@ const COLORS: Record<TimelineColor, {
   },
   purple: {
     dot: 'bg-purple-500',
-    ring: 'ring-purple-500/25',
-    pingBg: 'bg-purple-400',
     role: 'text-purple-300/80',
     tagBg: 'bg-purple-500/10 text-purple-300 border-purple-500/25',
     hoverBorder: 'group-hover/tl:border-purple-400/40',
@@ -97,8 +117,6 @@ const COLORS: Record<TimelineColor, {
   },
   cyan: {
     dot: 'bg-cyan-500',
-    ring: 'ring-cyan-500/25',
-    pingBg: 'bg-cyan-400',
     role: 'text-cyan-300/80',
     tagBg: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/25',
     hoverBorder: 'group-hover/tl:border-cyan-400/40',
@@ -107,8 +125,6 @@ const COLORS: Record<TimelineColor, {
   },
   pink: {
     dot: 'bg-pink-500',
-    ring: 'ring-pink-500/25',
-    pingBg: 'bg-pink-400',
     role: 'text-pink-300/80',
     tagBg: 'bg-pink-500/10 text-pink-300 border-pink-500/25',
     hoverBorder: 'group-hover/tl:border-pink-400/40',
@@ -117,8 +133,6 @@ const COLORS: Record<TimelineColor, {
   },
   emerald: {
     dot: 'bg-emerald-500',
-    ring: 'ring-emerald-500/25',
-    pingBg: 'bg-emerald-400',
     role: 'text-emerald-300/80',
     tagBg: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25',
     hoverBorder: 'group-hover/tl:border-emerald-400/40',
@@ -127,8 +141,6 @@ const COLORS: Record<TimelineColor, {
   },
   amber: {
     dot: 'bg-amber-500',
-    ring: 'ring-amber-500/25',
-    pingBg: 'bg-amber-400',
     role: 'text-amber-300/80',
     tagBg: 'bg-amber-500/10 text-amber-300 border-amber-500/25',
     hoverBorder: 'group-hover/tl:border-amber-400/40',
@@ -137,141 +149,196 @@ const COLORS: Record<TimelineColor, {
   },
 };
 
-/* ============================================================
-   Timeline (vertical, single-rail, dark theme)
-   ============================================================ */
-export function Timeline() {
-  return (
-    <div className="relative">
-      {/* vertical rail */}
-      <div
-        className="absolute left-[15px] md:left-[19px] top-3 bottom-3 w-px bg-gradient-to-b from-indigo-500/0 via-white/15 to-indigo-500/0"
-        aria-hidden="true"
-      />
+/** Colour of the dot for this item on a progress rail. */
+export const pathDot = (item: PathItem) =>
+  COLORS[item.kind === 'event' ? item.event.color : 'indigo'].dot;
 
-      <ol className="space-y-6 md:space-y-8">
-        {timelineEvents.map((event, idx) => (
-          <TimelineItem key={event.id} event={event} index={idx} />
-        ))}
-      </ol>
+/* ============================================================
+   Cards
+   ============================================================ */
+export function EventCard({ event, shotX }: { event: TimelineEvent; shotX?: MotionValue<number> }) {
+  const c = COLORS[event.color];
+
+  return (
+    <article
+      className={`path-card group/tl relative h-full overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-ink-700/60 via-ink-800/40 to-ink-900/70 p-6 md:p-8 grid content-start md:content-center gap-6 md:gap-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-center transition-[border-color,box-shadow] duration-500 ${c.hoverBorder} ${c.hoverShadow}`}
+    >
+      <div className="min-w-0">
+        {/* date + tag header */}
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <span className="font-mono text-[11px] text-ink-300 tracking-wider">
+            {event.date}
+            {event.dateEnd && <span className="text-ink-500"> — {event.dateEnd}</span>}
+          </span>
+          {event.tag && (
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono ${c.tagBg} border whitespace-nowrap`}>
+              {event.tag}
+            </span>
+          )}
+          {event.program && (
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-500/10 text-amber-300 border border-amber-500/25 whitespace-nowrap">
+              ✦ {event.program}
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-semibold text-ink-100 tracking-tight leading-tight">
+          {event.title}
+        </h3>
+
+        <p className={`mt-1 text-[11.5px] font-mono ${c.role} tracking-wider`}>{event.role}</p>
+
+        <p className="mt-3 text-[13.5px] text-ink-300 leading-relaxed">{event.description}</p>
+
+        {event.stack && event.stack.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-4">
+            {event.stack.map((t) => (
+              <span
+                key={t}
+                className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/[0.04] border border-white/10 text-ink-300"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {event.links && event.links.length > 0 && (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {event.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track('project_link_clicked', { project: event.title, label: l.label })}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[12px] font-mono font-medium transition-all duration-300 ${c.link}`}
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-current opacity-60 animate-ping" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-current" />
+                </span>
+                <span>{l.label}</span>
+                <span className="text-[11px] opacity-80 transition-transform group-hover/tl:translate-x-0.5">↗</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* screenshot drifts against the strip (parallax) when the strip passes a value in */}
+      <motion.div style={shotX ? { x: shotX } : undefined} className="min-w-0">
+        {event.screenshot && (
+          <ScreenshotFrame
+            src={event.screenshot}
+            alt={`${event.title} screenshot`}
+            caption={event.screenshotCaption}
+            eventId={event.id}
+            aspect={event.screenshotAspect}
+            className="mt-0"
+          />
+        )}
+      </motion.div>
+    </article>
+  );
+}
+
+/** Last panel of the path: it ends at the live product. */
+export function FinaleCard() {
+  return (
+    <article className="relative h-full min-h-[340px] overflow-hidden rounded-3xl border border-indigo-400/25 bg-gradient-to-br from-indigo-500/[0.14] via-purple-500/[0.07] to-ink-900/80 p-8 md:p-12 flex flex-col justify-center">
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-indigo-300/80 mb-4">
+        Now live
+      </p>
+      <h3 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.05] text-ink-100">
+        Subutai is live.
+        <br />
+        <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+          Rotate the board yourself.
+        </span>
+      </h3>
+      <p className="mt-5 max-w-md text-[15px] text-ink-300 leading-relaxed">
+        Shown at Lucid Dreams 2026: ~120 visitors, ~80 sat down and played. It runs in the browser.
+      </p>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <a
+          href={SUBUTAI_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => track('project_link_clicked', { project: 'Subutai', label: 'Path finale · Play' })}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent hover:bg-accent-glow text-white text-sm font-medium transition-all hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]"
+        >
+          Play Subutai <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href={SUBUTAI_REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => track('project_link_clicked', { project: 'Subutai', label: 'Path finale · Source' })}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.04] hover:bg-white/10 border border-white/10 text-sm font-medium transition-all hover:border-white/25"
+        >
+          ◉ Source on GitHub
+        </a>
+      </div>
+    </article>
+  );
+}
+
+export function PathCard({ item, shotX }: { item: PathItem; shotX?: MotionValue<number> }) {
+  return item.kind === 'event' ? <EventCard event={item.event} shotX={shotX} /> : <FinaleCard />;
+}
+
+/** "03 / Path" title block of the scroll-snap list. */
+export function PathHeading({ className = '' }: { className?: string }) {
+  return (
+    <div className={className}>
+      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-pink-400/80 mb-3">
+        03 / Path
+      </p>
+      <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight max-w-3xl text-ink-200">
+        The work, in order.
+      </h2>
     </div>
   );
 }
 
 /* ============================================================
-   Single timeline item — dot on the rail + card with details
+   Native horizontal scroll-snap (phone, short window, reduced
+   motion). No scroll is hijacked.
    ============================================================ */
-function TimelineItem({ event, index }: { event: TimelineEvent; index: number }) {
-  const c = COLORS[event.color];
+export function PathSnap() {
+  const listRef = useRef<HTMLOListElement>(null);
+  const endTracked = useRef(false);
+
+  const onScroll = useCallback(() => {
+    const el = listRef.current;
+    if (!el || endTracked.current) return;
+    if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 8) {
+      endTracked.current = true;
+      track('path_reached_end');
+    }
+  }, []);
 
   return (
-    <motion.li
-      className="relative pl-10 md:pl-14 group/tl"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay: Math.min(index * 0.07, 0.4) }}
-    >
-      {/* dot on the rail */}
-      <span
-        className={`absolute left-[7px] md:left-[11px] top-[18px] w-4 h-4 rounded-full ${c.dot} ring-4 ${c.ring} transition-all duration-300 group-hover/tl:scale-125 group-hover/tl:ring-8 z-10`}
-        aria-hidden="true"
+    <div className="pt-10 pb-10 md:pb-12">
+      <PathHeading className="px-4 md:px-8 max-w-6xl mx-auto mb-8" />
+      <ol
+        ref={listRef}
+        onScroll={onScroll}
+        tabIndex={0}
+        aria-label="Career path, scroll sideways"
+        className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scroll-px-4 md:scroll-px-8 px-4 md:px-8 pb-4"
       >
-        {/* subtle ping on hover */}
-        <span className={`absolute inset-0 rounded-full ${c.pingBg} opacity-0 group-hover/tl:opacity-30 group-hover/tl:animate-ping`} />
-      </span>
-
-      {/* card */}
-      <div
-        className={`relative overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-br from-ink-700/60 via-ink-800/40 to-ink-900/60 backdrop-blur-sm p-5 md:p-6 transition-all duration-500 ${c.hoverBorder} ${c.hoverShadow}`}
-      >
-        {/* subtle noise overlay (matches existing bento style) */}
-        <div className="noise absolute inset-0 pointer-events-none" />
-
-        <div className="relative">
-          {/* date + tag header */}
-          <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="font-mono text-[11px] text-ink-300 tracking-wider">
-              {event.date}
-              {event.dateEnd && <span className="text-ink-500"> — {event.dateEnd}</span>}
-            </span>
-            {event.tag && (
-              <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono ${c.tagBg} border whitespace-nowrap`}
-              >
-                {event.tag}
-              </span>
-            )}
-            {event.program && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-500/10 text-amber-300 border border-amber-500/25 whitespace-nowrap">
-                ✦ {event.program}
-              </span>
-            )}
-          </div>
-
-          {/* title */}
-          <h3 className="text-xl md:text-[22px] font-semibold text-ink-100 tracking-tight leading-tight">
-            {event.title}
-          </h3>
-
-          {/* role */}
-          <p className={`mt-1 text-[11.5px] font-mono ${c.role} tracking-wider`}>
-            {event.role}
-          </p>
-
-          {/* description */}
-          <p className="mt-3 text-[13.5px] text-ink-300 leading-relaxed">
-            {event.description}
-          </p>
-
-          {/* stack */}
-          {event.stack && event.stack.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-4">
-              {event.stack.map((t) => (
-                <span
-                  key={t}
-                  className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/[0.04] border border-white/10 text-ink-300"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* screenshot — falls back to placeholder if image 404s */}
-          {event.screenshot && (
-            <ScreenshotFrame
-              src={event.screenshot}
-              alt={`${event.title} screenshot`}
-              caption={event.screenshotCaption}
-              eventId={event.id}
-              aspect={event.screenshotAspect}
-            />
-          )}
-
-          {/* external links — one or more pill buttons in event accent color */}
-          {event.links && event.links.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-2">
-              {event.links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[12px] font-mono font-medium transition-all duration-300 ${c.link}`}
-                >
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-current opacity-60 animate-ping" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-current" />
-                  </span>
-                  <span>{l.label}</span>
-                  <span className="text-[11px] opacity-80 transition-transform group-hover/tl:translate-x-0.5">↗</span>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+        {PATH_ITEMS.map((item) => (
+          <li key={pathKey(item)} className="snap-center shrink-0 w-[86vw] md:w-[min(80vw,900px)]">
+            <PathCard item={item} />
+          </li>
+        ))}
+      </ol>
+      <div className="mt-3 px-4 md:px-8 max-w-6xl mx-auto flex items-center gap-4 font-mono text-[11px] text-ink-400">
+        <span>Swipe sideways</span>
+        <ArrowCue className="h-auto w-24" />
       </div>
-    </motion.li>
+    </div>
   );
 }
